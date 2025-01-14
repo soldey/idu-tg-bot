@@ -1,8 +1,7 @@
 from elastic_transport import ObjectApiResponse
 from elasticsearch import Elasticsearch
 from elasticsearch.helpers import bulk
-from torch import Tensor
-from torch._numpy import ndarray
+from fastapi import HTTPException
 
 from src.common.config.config import Config
 from src.vectorizer.vectorizer_service import VectorizerService
@@ -14,7 +13,7 @@ class ElasticService:
         self.config = config
         self.vectorizer_service = vectorizer_service
 
-    async def search(self, embedding: list[Tensor] | ndarray | Tensor) -> ObjectApiResponse:
+    async def search(self, embedding: list) -> ObjectApiResponse:
         index_name = self.config.get("ELASTIC_DOCUMENT_INDEX")
         query_body = {
             "knn": {
@@ -71,5 +70,8 @@ class ElasticService:
         print("Finished")
         return index_name
 
-    def encode(self, document: str) -> Tensor:
-        return self.vectorizer_service.embed(document)
+    def encode(self, document: str) -> list:
+        try:
+            return self.vectorizer_service.embed(document)
+        except Exception as e:
+            raise HTTPException(500, str(e))

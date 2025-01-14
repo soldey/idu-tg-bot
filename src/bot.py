@@ -30,8 +30,12 @@ async def echo(message: Message):
     cnt += 1
     print(f"{datetime.now().strftime('%d.%m %H:%M')} from {message.from_user.username} accepted: {message.text}")
 
-    embedding = model.embed(message.text)
-    print(message.text, embedding.tolist())
+    try:
+        embedding = model.embed(message.text)
+    except Exception as e:
+        await bot.reply_to(message, "cant connect to backend server")
+        return
+    print(message.text, embedding)
     try:
         elastic_response = await elastic_client.search(embedding)
     except ConnectionError as e:

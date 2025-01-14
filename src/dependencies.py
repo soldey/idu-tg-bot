@@ -4,6 +4,6 @@ from src.llm.llm_service import LlmService
 from src.vectorizer.vectorizer_service import VectorizerService
 
 config = Config()
-model = VectorizerService(config.get("VECTORIZER_MODEL_NAME"))
+model = VectorizerService(config)
 elastic_client = ElasticService(config, model)
 llm_service = LlmService(config)
