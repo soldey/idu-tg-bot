@@ -1,3 +1,5 @@
+import io
+
 from elastic_transport import ObjectApiResponse
 from elasticsearch import Elasticsearch
 from elasticsearch.helpers import bulk
@@ -28,8 +30,9 @@ class ElasticService:
 
     async def upload_to_index(self, file: bytes, index_name: str):
         documents = []
+        byte_file = io.BytesIO(file)
         # Open the file containing text.
-        with open(file, 'r', encoding="utf-8") as documents_file:
+        with io.TextIOWrapper(byte_file, encoding="utf-8") as documents_file:
             # Open the file in which the vectors will be saved.
             processed = 0
             # Processing 100 documents at a time.
