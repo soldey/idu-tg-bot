@@ -4,8 +4,8 @@ from elastic_transport import ObjectApiResponse
 from elasticsearch import Elasticsearch
 from elasticsearch.helpers import bulk
 from fastapi import HTTPException
+from iduconfig import Config
 
-from src.common.config.config import Config
 from src.vectorizer.vectorizer_service import VectorizerService
 
 

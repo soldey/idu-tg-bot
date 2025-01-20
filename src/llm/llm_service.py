@@ -1,4 +1,4 @@
-from src.common.config.config import Config
+from iduconfig import Config
 
 
 class LlmService:

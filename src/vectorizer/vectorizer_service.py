@@ -1,8 +1,7 @@
 import json
 
 import requests
-
-from src.common.config.config import Config
+from iduconfig import Config
 
 
 class VectorizerService:

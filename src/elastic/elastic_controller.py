@@ -31,7 +31,7 @@ async def configure(
         body: Annotated[dict, Body()],
 ):
     for k, v in body.items():
-        config.set(k, v)
+        config.set(k, str(v))
 
 
 @elastic_router.get("/cfg", tags=cfg_tag)
