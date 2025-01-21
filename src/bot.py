@@ -38,9 +38,9 @@ async def echo(message: Message):
     print(message.text, embedding)
     try:
         elastic_response = await elastic_client.search(embedding)
-    except ConnectionError as e:
+    except Exception as e:
         cnt -= 1
-        await bot.reply_to(message, "cant connect to document store")
+        await bot.reply_to(message, f"couldn't process: {e}")
         return
     context = ';'.join([resp["_source"]["body"].rstrip() for resp in elastic_response["hits"]["hits"]])
     headers, data = await llm_service.generate_request_data(message.text, context)
